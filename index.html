@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Realtime Google Sheets</title>
+</head>
+<body>
+  <h1>📊Google Sheets สินค้า</h1>
+  <table border="1" id="dataTable">
+    <thead>
+      <tr>
+      <th>วันที่</th>
+      <th>สินค้า</th>
+      <th>จำนวน</th>
+      <th>ราคา</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
+<script>
+  // เปลี่ยน URL นี้เป็น Web App URL ที่คุณ Deploy จาก Google Apps Script
+const API_URL = "https://script.google.com/macros/s/AKfycby0_vmopEanjdQI_9WYu7BEIFHlM3Fh37zELlCAC_347ZwVA7-rGhKrSIWkJNctSscF/exec";
+
+async function fetchData() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    const tbody = document.querySelector("#dataTable tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(item => {
+      const row = `<tr>
+        <td>${item.date}</td>p
+        <td>${item.product}</td>
+        <td>${item.qty}</td>
+        <td>${item.price}</td>
+      </tr>`;
+      tbody.innerHTML += row;
+    });
+  } catch (err) {
+    console.error("โหลดข้อมูลไม่สำเร็จ", err);
+  }
+}
+
+fetchData();               // โหลดครั้งแรก
+setInterval(fetchData, 5000); // โหลดใหม่ทุก 5 วิ
+  </script>
+</body>
+</html> เอาลองรันเว็บไหนได้บ้าง เช่น w3scools ได้ไหม
